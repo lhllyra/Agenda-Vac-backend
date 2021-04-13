@@ -10,9 +10,46 @@ class User {
   async store(request, response) {
     const { body } = request;
 
-    const user = await UserModel.create(body);
+    try {
+      const user = await UserModel.create(body);
+      response.send({ user });
+    } catch (error) {
+      response.send({ message: error.message });
+    }
+  }
 
-    response.send({ user });
+  async getById(request, response) {
+    const { id } = request.params;
+
+    try {
+      const user = await UserModel.findById(id);
+
+      if (!user) {
+        response.send({ message: 'User doesnt exist' });
+      }
+
+      response.send({ user });
+    } catch (error) {
+      response.status(400).send({ message: error.message });
+    }
+  }
+
+  async delete(request, response) {
+    const { id } = request.params;
+
+    try {
+      const user = await UserModel.findById(id);
+
+      if (!user) {
+        response.send({ message: 'User doesnt exist' });
+      }
+
+      await user.remove();
+
+      response.send({ message: 'User removed' });
+    } catch (error) {
+      response.status(400).send({ message: error.message });
+    }
   }
 }
 
