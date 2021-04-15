@@ -4,6 +4,7 @@ const AppointmentSchema = new mongoose.Schema({
   vacDate: String,
   vacTime: String,
   CPF: [String],
+  Age: [Number],
   _id: String,
 }, {
   timestamps: true,

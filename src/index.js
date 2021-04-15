@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
-const UserRouter = require('./routes/user.route');
-const AppointmentRouter = require('./routes/appointment.route');
+const Routes = require('./routes');
 
 const { MONGO_URL, HTTP_PORT } = process.env;
 
@@ -13,10 +13,11 @@ mongoose.connect(MONGO_URL, {
 });
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 
-app.use('/api', UserRouter, AppointmentRouter);
+app.use(Routes);
 
 app.get('/', (request, response) => {
   response.send({ message: 'Hello World' });

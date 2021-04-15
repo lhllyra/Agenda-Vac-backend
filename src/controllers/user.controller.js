@@ -1,20 +1,26 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 const UserModel = require('../models/user.model');
 
 class User {
   async index(request, response) {
     const users = await UserModel.find();
-    response.send({ users });
+    response.send({ data: users });
   }
 
   async store(request, response) {
     const { body } = request;
 
-    try {
-      const user = await UserModel.create(body);
-      response.send({ user });
-    } catch (error) {
-      response.send({ message: error.message });
+    const exists = await UserModel.findById(body._id);
+    if (!exists) {
+      try {
+        const user = await UserModel.create(body);
+        response.send({ data: user, message: 'Cadastro efetuado com sucesso' });
+      } catch (error) {
+        response.send({ message: error.message });
+      }
+    } else {
+      response.send({ message: 'user exists!' });
     }
   }
 
@@ -26,9 +32,9 @@ class User {
 
       if (!user) {
         response.send({ message: 'User doesnt exist' });
+      } else {
+        response.send({ data: user });
       }
-
-      response.send({ user });
     } catch (error) {
       response.status(400).send({ message: error.message });
     }
@@ -36,17 +42,17 @@ class User {
 
   async delete(request, response) {
     const { id } = request.params;
+    console.log(id);
 
     try {
       const user = await UserModel.findById(id);
 
       if (!user) {
         response.send({ message: 'User doesnt exist' });
+      } else {
+        await user.remove();
+        response.send({ message: 'User removed' });
       }
-
-      await user.remove();
-
-      response.send({ message: 'User removed' });
     } catch (error) {
       response.status(400).send({ message: error.message });
     }
