@@ -8,6 +8,8 @@ Router.get('/user/:id', UserController.getById);
 
 Router.post('/user', UserController.store);
 
+Router.put('/user/:id', UserController.putById);
+
 Router.delete('/user/:id', UserController.delete);
 
 module.exports = Router;

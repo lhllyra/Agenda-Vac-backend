@@ -24,5 +24,5 @@ app.get('/', (request, response) => {
 });
 
 app.listen(HTTP_PORT, () => {
-  console.log(`Estou aqui na porta ${HTTP_PORT}!`);
+  console.log(`Backend is a-go, PORT:${HTTP_PORT}`);
 });

@@ -40,6 +40,24 @@ class User {
     }
   }
 
+  async putById(request, response) {
+    const { body } = request;
+
+    try {
+      const user = await UserModel.findById(body._id);
+
+      if (!user) {
+        response.send({ message: 'User doesnt exist' });
+      } else {
+        user.isDone = body.isDone;
+        user.report = body.report;
+        await user.save();
+      }
+    } catch (error) {
+      response.status(400).send({ message: error.message });
+    }
+  }
+
   async delete(request, response) {
     const { id } = request.params;
     console.log(id);
