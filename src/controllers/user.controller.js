@@ -60,7 +60,6 @@ class User {
 
   async delete(request, response) {
     const { id } = request.params;
-    console.log(id);
 
     try {
       const user = await UserModel.findById(id);
