@@ -7,10 +7,11 @@ const Routes = require('./routes');
 
 const { MONGO_URL, HTTP_PORT } = process.env;
 
-mongoose.connect(MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
 const app = express();
 app.use(cors());
